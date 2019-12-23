@@ -1,13 +1,32 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <div>"Welcome to Your Vue.js App"</div>
+    <div class="center">
+      <h1>12-22-2019</h1>
+      <!-- <form #dateForm="ngForm">
+        <input name="view-date" type="date" [(ngModel)]="pickerDate" required> 
+        <button class="btn btn-primary" [disabled]="loadingActivities || deletingActivity || !dateForm.form.valid" (click)="changeDate()">Go To Date</button>
+      </form> -->
+    </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 
-export default {
-  name: "home",
-};
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
+@Component
+export default class Home extends Vue {
+  header: string;
+
+  constructor() {
+    super();
+    this.header = "Welcome to a single recipe view";
+  }
+}
 </script>
+
+<style scoped>
+.center {
+  text-align: center;
+}
+</style>
