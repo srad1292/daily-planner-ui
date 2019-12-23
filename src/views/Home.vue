@@ -3,32 +3,69 @@
     <div class="center date-container">
       <h1>Daily Planner</h1>
       <form>
-        <button class="arrow-button" v-on:click.stop.prevent="updateDate('last')" :disabled="loading">&lt;</button>
-        <input name="view-date" id="date-input" type="date" v-model="pickerDate" v-on:input="loadScheduleAndTasks(pickerDate)" :disabled="loading" required> 
-        <button class="arrow-button" v-on:click.stop.prevent="updateDate('next')" :disabled="loading">&gt;</button>
+        <button
+          class="arrow-button"
+          v-on:click.stop.prevent="updateDate('last')"
+          :disabled="loading"
+        >
+          &lt;
+        </button>
+        <input
+          name="view-date"
+          id="date-input"
+          type="date"
+          v-model="pickerDate"
+          v-on:input="loadScheduleAndTasks(pickerDate)"
+          :disabled="loading"
+          required
+        />
+        <button
+          class="arrow-button"
+          v-on:click.stop.prevent="updateDate('next')"
+          :disabled="loading"
+        >
+          &gt;
+        </button>
       </form>
     </div>
 
     <template v-if="loading">
-      <div class="center">
-        Loading for: {{pickerDate}}
-      </div>
+      <div class="center">Loading for: {{ pickerDate }}</div>
     </template>
 
     <b-container id="main-content">
       <b-row>
         <b-col cols="3">
-          <b-button v-b-toggle.todays-tasks variant="info" class="m-1 collapse-button" v-on:click.stop.prevent="updateDailyIcon()">Today's Tasks {{dailyIcon}}</b-button>
-        
+          <b-button
+            v-b-toggle.todays-tasks
+            variant="info"
+            class="m-1 collapse-button"
+            v-on:click.stop.prevent="updateDailyIcon()"
+            >Today's Tasks {{ dailyIcon }}</b-button
+          >
+
           <b-collapse id="todays-tasks" class="collapse-content">
             <ul>
-              <li v-for="task in dailyTasks" v-bind:key="task.id">{{task}}</li>
+              <li v-for="task in dailyTasks" v-bind:key="task.id">
+                {{ task }}
+              </li>
             </ul>
             <form id="daily-task-form">
               <b-input-group>
-                <b-form-input name="daily-task-input" id="daily-task-input" type="text" v-model="newDailyTask" :disabled="loading"></b-form-input>
+                <b-form-input
+                  name="daily-task-input"
+                  id="daily-task-input"
+                  type="text"
+                  v-model="newDailyTask"
+                  :disabled="loading"
+                ></b-form-input>
                 <b-input-group-append>
-                  <b-button variant="success" v-on:click.stop.prevent="addDailyTask()" :disabled="newDailyTask.length === 0 || loading">Add Task</b-button>
+                  <b-button
+                    variant="success"
+                    v-on:click.stop.prevent="addDailyTask()"
+                    :disabled="newDailyTask.length === 0 || loading"
+                    >Add Task</b-button
+                  >
                 </b-input-group-append>
               </b-input-group>
             </form>
@@ -37,17 +74,14 @@
 
         <b-col></b-col>
 
-        <b-col cols="8">
-
-        </b-col>
+        <b-col cols="8"> </b-col>
       </b-row>
     </b-container>
   </div>
 </template>
 
 <script lang="ts">
-
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from "vue-property-decorator";
 import moment from "moment";
 
 @Component
@@ -73,24 +107,24 @@ export default class Home extends Vue {
   addDailyTask() {
     if (this.newDailyTask.length > 0) {
       this.loading = true;
-      let delay = (time: number) => (result: any) => new Promise(resolve => setTimeout(() => resolve(result), time));
+      let delay = (time: number) => (result: any) =>
+        new Promise(resolve => setTimeout(() => resolve(result), time));
       Promise.resolve("Data")
         .then(delay(1500))
-        .then(result => { 
+        .then(result => {
           this.dailyTasks.push(this.newDailyTask);
           this.newDailyTask = "";
-          this.loading = false
+          this.loading = false;
         });
     }
   }
 
   updateDate(direction: string) {
     let newDate;
-    if(direction === "last") {
-      newDate = moment(this.pickerDate).subtract(1, 'days');
-    }
-    else {
-      newDate = moment(this.pickerDate).add(1, 'days');
+    if (direction === "last") {
+      newDate = moment(this.pickerDate).subtract(1, "days");
+    } else {
+      newDate = moment(this.pickerDate).add(1, "days");
     }
     this.pickerDate = newDate.format("YYYY-MM-DD");
     this.loadScheduleAndTasks(newDate.format("YYYY-MM-DD"));
@@ -98,17 +132,17 @@ export default class Home extends Vue {
 
   loadScheduleAndTasks(date: string) {
     this.loading = true;
-    let delay = (time: number) => (result: any) => new Promise(resolve => setTimeout(() => resolve(result), time));
+    let delay = (time: number) => (result: any) =>
+      new Promise(resolve => setTimeout(() => resolve(result), time));
 
     Promise.resolve("Data")
       .then(delay(1500))
-      .then(result => this.loading = false);
+      .then(result => (this.loading = false));
   }
 }
 </script>
 
 <style scoped>
-
 ul {
   text-align: left;
 }
@@ -134,7 +168,7 @@ ul {
 .collapse-content {
   width: 94%;
   margin-left: 3%;
-  border: 1px solid #17a2b8;;
+  border: 1px solid #17a2b8;
 }
 
 #home {
@@ -158,5 +192,4 @@ ul {
   margin-left: 3%;
   margin-bottom: 2px;
 }
-
 </style>
