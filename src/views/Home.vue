@@ -50,7 +50,7 @@
                 {{ task }}
               </li>
             </ul>
-            <form id="daily-task-form">
+            <form class="item-form">
               <b-input-group>
                 <b-form-input
                   name="daily-task-input"
@@ -64,6 +64,42 @@
                     variant="success"
                     v-on:click.stop.prevent="addDailyTask()"
                     :disabled="newDailyTask.length === 0 || loading"
+                    >Add Task</b-button
+                  >
+                </b-input-group-append>
+              </b-input-group>
+            </form>
+          </b-collapse>
+
+          <b-button
+            v-b-toggle.to-do-list
+            variant="info"
+            class="m-1 collapse-button"
+            id="to-do-button"
+            v-on:click.stop.prevent="updateToDoIcon()"
+            >To Do List {{ toDoIcon }}</b-button
+          >
+
+          <b-collapse id="to-do-list" class="collapse-content">
+            <ul>
+              <li v-for="task in toDoItems" v-bind:key="task.id">
+                {{ task }}
+              </li>
+            </ul>
+            <form class="item-form">
+              <b-input-group>
+                <b-form-input
+                  name="to-do-input"
+                  id="to-do-input"
+                  type="text"
+                  v-model="newToDoItem"
+                  :disabled="loading"
+                ></b-form-input>
+                <b-input-group-append>
+                  <b-button
+                    variant="success"
+                    v-on:click.stop.prevent="addToDoItem()"
+                    :disabled="newToDoItem.length === 0 || loading"
                     >Add Task</b-button
                   >
                 </b-input-group-append>
@@ -91,6 +127,9 @@ export default class Home extends Vue {
   dailyIcon: string;
   dailyTasks: string[];
   newDailyTask: string;
+  toDoIcon: string;
+  toDoItems: string[];
+  newToDoItem: string;
 
   constructor() {
     super();
@@ -98,6 +137,12 @@ export default class Home extends Vue {
     this.dailyIcon = "+";
     this.dailyTasks = ["Daily Task Feature", "To Do List", "Get Taco Bell"];
     this.newDailyTask = "";
+    this.toDoIcon = "+";
+    this.toDoItems = [
+      "Learn about unit testing",
+      "Learn about building project into dist folder"
+    ];
+    this.newToDoItem = "";
   }
 
   updateDailyIcon() {
@@ -114,6 +159,25 @@ export default class Home extends Vue {
         .then(result => {
           this.dailyTasks.push(this.newDailyTask);
           this.newDailyTask = "";
+          this.loading = false;
+        });
+    }
+  }
+
+  updateToDoIcon() {
+    this.toDoIcon = this.toDoIcon === "+" ? "-" : "+";
+  }
+
+  addToDoItem() {
+    if (this.newToDoItem.length > 0) {
+      this.loading = true;
+      let delay = (time: number) => (result: any) =>
+        new Promise(resolve => setTimeout(() => resolve(result), time));
+      Promise.resolve("Data")
+        .then(delay(0))
+        .then(result => {
+          this.toDoItems.push(this.newToDoItem);
+          this.newToDoItem = "";
           this.loading = false;
         });
     }
@@ -171,6 +235,12 @@ ul {
   border: 1px solid #17a2b8;
 }
 
+.item-form {
+  width: 94%;
+  margin-left: 3%;
+  margin-bottom: 2px;
+}
+
 #home {
   background-color: #f7f8fc;
 }
@@ -187,9 +257,7 @@ ul {
   margin-top: 3%;
 }
 
-#daily-task-form {
-  width: 94%;
-  margin-left: 3%;
-  margin-bottom: 2px;
+#to-do-button {
+  margin-top: 6rem !important;
 }
 </style>
