@@ -46,8 +46,30 @@
 
           <b-collapse id="todays-tasks" class="collapse-content">
             <ul>
-              <li v-for="task in dailyTasks" v-bind:key="task.id">
-                {{ task }}
+              <li
+                v-for="task in dailyTasks"
+                v-bind:key="task.id"
+                v-bind:class="{ strike: task.complete }"
+              >
+                <b-container>
+                  <b-row>
+                    <b-col cols="10">
+                      <b-form-checkbox v-model="task.complete">
+                        <p v-bind:class="{ strike: task.complete }">
+                          {{ task.name }}
+                        </p>
+                      </b-form-checkbox>
+                    </b-col>
+                    <b-col cols="2">
+                      <b-button
+                        variant="danger"
+                        class="btn-delete"
+                        v-on:click.stop.prevent="deleteDailyTask(index)"
+                        >X</b-button
+                      >
+                    </b-col>
+                  </b-row>
+                </b-container>
               </li>
             </ul>
             <form class="item-form">
@@ -82,8 +104,26 @@
 
           <b-collapse id="to-do-list" class="collapse-content">
             <ul>
-              <li v-for="task in toDoItems" v-bind:key="task.id">
-                {{ task }}
+              <li v-for="(task, index) in toDoItems" v-bind:key="task.id">
+                <b-container>
+                  <b-row>
+                    <b-col cols="10">
+                      <b-form-checkbox v-model="task.complete">
+                        <p v-bind:class="{ strike: task.complete }">
+                          {{ task.name }}
+                        </p>
+                      </b-form-checkbox>
+                    </b-col>
+                    <b-col cols="2">
+                      <b-button
+                        variant="danger"
+                        class="btn-delete"
+                        v-on:click.stop.prevent="deleteToDoItem(index)"
+                        >X</b-button
+                      >
+                    </b-col>
+                  </b-row>
+                </b-container>
               </li>
             </ul>
             <form class="item-form">
@@ -118,6 +158,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import { TaskItem } from "../models/task-item.interface";
 import moment from "moment";
 
 @Component
@@ -125,22 +166,42 @@ export default class Home extends Vue {
   pickerDate: string;
   loading: boolean = false;
   dailyIcon: string;
-  dailyTasks: string[];
+  dailyTasks: TaskItem[];
   newDailyTask: string;
   toDoIcon: string;
-  toDoItems: string[];
+  toDoItems: TaskItem[];
   newToDoItem: string;
 
   constructor() {
     super();
     this.pickerDate = moment().format("YYYY-MM-DD");
     this.dailyIcon = "+";
-    this.dailyTasks = ["Daily Task Feature", "To Do List", "Get Taco Bell"];
+    this.dailyTasks = [
+      {
+        name: "Daily Task Feature",
+        complete: false
+      },
+      {
+        name: "To Do List",
+        complete: true
+      },
+      {
+        name: "Get Taco Bell",
+        complete: false
+      }
+    ];
     this.newDailyTask = "";
     this.toDoIcon = "+";
     this.toDoItems = [
-      "Learn about unit testing",
-      "Learn about building project into dist folder"
+      {
+        name:
+          "Learn about unit testing oh man this is a pretty long task name wowowow this is long",
+        complete: true
+      },
+      {
+        name: "Learn about building project into dist folder",
+        complete: false
+      }
     ];
     this.newToDoItem = "";
   }
@@ -157,11 +218,27 @@ export default class Home extends Vue {
       Promise.resolve("Data")
         .then(delay(1500))
         .then(result => {
-          this.dailyTasks.push(this.newDailyTask);
+          this.dailyTasks.push({
+            name: this.newDailyTask,
+            complete: false
+          });
           this.newDailyTask = "";
           this.loading = false;
         });
     }
+  }
+
+  deleteDailyTask(index: number) {
+    console.log(index);
+    this.loading = true;
+    let delay = (time: number) => (result: any) =>
+      new Promise(resolve => setTimeout(() => resolve(result), time));
+    Promise.resolve("Data")
+      .then(delay(1000))
+      .then(result => {
+        this.dailyTasks.splice(index, 1);
+        this.loading = false;
+      });
   }
 
   updateToDoIcon() {
@@ -176,11 +253,27 @@ export default class Home extends Vue {
       Promise.resolve("Data")
         .then(delay(0))
         .then(result => {
-          this.toDoItems.push(this.newToDoItem);
+          this.toDoItems.push({
+            name: this.newToDoItem,
+            complete: false
+          });
           this.newToDoItem = "";
           this.loading = false;
         });
     }
+  }
+
+  deleteToDoItem(index: number) {
+    console.log(index);
+    this.loading = true;
+    let delay = (time: number) => (result: any) =>
+      new Promise(resolve => setTimeout(() => resolve(result), time));
+    Promise.resolve("Data")
+      .then(delay(1000))
+      .then(result => {
+        this.toDoItems.splice(index, 1);
+        this.loading = false;
+      });
   }
 
   updateDate(direction: string) {
@@ -209,6 +302,9 @@ export default class Home extends Vue {
 <style scoped>
 ul {
   text-align: left;
+  list-style-type: none;
+  padding-top: 3px;
+  padding-left: 5%;
 }
 
 .date-container {
@@ -239,6 +335,14 @@ ul {
   width: 94%;
   margin-left: 3%;
   margin-bottom: 2px;
+}
+
+.strike {
+  text-decoration: line-through;
+}
+
+.btn-delete {
+  font-size: xx-small;
 }
 
 #home {
