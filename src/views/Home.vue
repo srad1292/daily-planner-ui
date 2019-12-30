@@ -152,10 +152,10 @@
 
         <b-col cols="8"> 
           <!-- <div id="table-container"> -->
-          <b-table-simple sticky-header>
+          <b-table-simple fixed sticky-header>
             <b-thead head-variant="dark">
               <b-tr>
-                <b-th>Time</b-th>
+                <b-th style="max-width: 10% !important">Time</b-th>
                 <b-th>Item One</b-th>
                 <b-th>Item Two</b-th>
                 <b-th>Item Three</b-th>
@@ -303,6 +303,7 @@
               <b-tr>
                 <b-td variant="dark">11:00</b-td>
                 <b-td style="background-color: #dccbba">Take a quick break</b-td>
+                <b-td style="background-color: #cfffba">This is a longer item description to see what it will look like.  Haven't thought too much about how I want to handle long items and stuff so we will see.</b-td>
               </b-tr>
               <b-tr>
                 <b-td variant="dark">11:15</b-td>
