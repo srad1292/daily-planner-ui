@@ -148,9 +148,326 @@
           </b-collapse>
         </b-col>
 
-        <b-col></b-col>
+        <!-- <b-col></b-col> -->
 
-        <b-col cols="8"> </b-col>
+        <b-col cols="9"> 
+          <!-- <div id="table-container"> -->
+          <b-table-simple fixed sticky-header>
+            <b-thead head-variant="dark">
+              <b-tr>
+                <b-th>Time</b-th>
+                <b-th>Item One</b-th>
+                <b-th>Item Two</b-th>
+                <b-th>Item Three</b-th>
+              </b-tr>
+            </b-thead>
+            <b-tbody>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">12:00</p></b-td>
+                <b-td rowspan="25" style="background-color: #abcdef">Sleep</b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">12:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">12:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">12:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">1:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">1:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">1:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">1:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">2:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">2:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">2:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">2:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">3:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">3:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">3:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">3:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">4:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">4:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">4:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">4:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">5:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">5:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">5:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">5:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">6:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">6:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">6:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">6:45</p></b-td>
+                <b-td rowspan="3" style="background-color: #fcba03">Walk</b-td>
+                <b-td rowspan="2" style="background-color: #ec6bfa">Think about all the things you have to do</b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">7:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">7:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">7:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">7:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">8:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">8:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">8:30</p></b-td>
+                <b-td rowspan="2" style="background-color: #d42269">Go To Work</b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">8:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">9:00</p></b-td>
+                <b-td rowspan="6" style="background-color: #ddefac">Figure out mocha and chai</b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">9:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">9:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">9:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">10:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">10:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">10:30</p></b-td>
+                <b-td rowspan="2" style="background-color: #fabfac">Document Findings</b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">10:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark" ><p class="table-cell">11:00</p></b-td>
+                <b-td style="background-color: #dccbba;">Take a quick break</b-td>
+                <b-td style="background-color: #cfffba;">
+                    <p class="table-cell">
+                      This is a longer item description to see what it will look like.  Haven't thought too much about how I want to handle long items and stuff so we will see.
+                    </p>
+                </b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">11:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">11:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">11:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">12:00</p></b-td>
+                <b-td style="background-color: #3bd3f5">API Daily Standup with Uday, Keerthi, and Charan</b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">12:15</p></b-td>
+                <b-td rowspan="4" style="background-color: #bbcaab">Lunch</b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">12:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">12:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">1:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">1:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">1:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">1:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">2:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">2:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">2:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">2:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">3:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">3:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">3:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">3:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">4:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">4:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">4:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">4:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">5:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">5:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">5:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">5:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">6:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">6:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">6:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">6:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">7:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">7:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">7:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">7:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">8:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">8:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">8:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">8:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">9:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">9:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">9:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">9:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">10:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">10:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">10:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">10:45</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">11:00</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">11:15</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">11:30</p></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td variant="dark"><p class="table-cell">11:45</p></b-td>
+              </b-tr>
+            </b-tbody>
+          </b-table-simple>
+          <!-- </div> -->
+        </b-col>
       </b-row>
     </b-container>
   </div>
@@ -178,16 +495,21 @@ export default class Home extends Vue {
     this.dailyIcon = "+";
     this.dailyTasks = [
       {
-        name: "Daily Task Feature",
+        name: "Keep messing with schedule feature",
         complete: false
       },
       {
-        name: "To Do List",
+        name:
+          "Allow for these items to be updated",
+        complete: false
+      },
+      {
+        name: "Figure out start and end dates for HA-RE, HA-PA, and HA-BA",
+        complete: false
+      },
+      {
+        name: "Stare into the abyss",
         complete: true
-      },
-      {
-        name: "Get Taco Bell",
-        complete: false
       }
     ];
     this.newDailyTask = "";
@@ -296,6 +618,11 @@ export default class Home extends Vue {
       .then(delay(1500))
       .then(result => (this.loading = false));
   }
+
+  getColors() {
+    let colors = [];
+    ([]).forEach(label => colors.push('#'+Math.floor(Math.random()*16777215).toString(16)));
+  }
 }
 </script>
 
@@ -306,6 +633,35 @@ ul {
   padding-top: 3px;
   padding-left: 5%;
 }
+
+tr {
+  height: 48px !important;
+}
+
+td {
+  overflow-y: hidden;
+}
+
+/* tr {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+td, th {
+  flex-wrap: wrap;
+  flex-direction: column;
+} */
+
+
+.table-cell {
+  height: 30px !important;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: 0;
+}
+
 
 .date-container {
   display: block;
@@ -345,6 +701,10 @@ ul {
   font-size: xx-small;
 }
 
+.b-table-sticky-header {
+  max-height: 70vh;
+}
+
 #home {
   background-color: #f7f8fc;
 }
@@ -364,4 +724,10 @@ ul {
 #to-do-button {
   margin-top: 6rem !important;
 }
+
+#table-container {
+  max-height: 70vh;
+  overflow-y: scroll;
+}
+
 </style>
