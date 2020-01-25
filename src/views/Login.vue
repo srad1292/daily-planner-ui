@@ -50,6 +50,16 @@
         </b-col>
       </b-row>
     </form>
+
+    <div style="margin-top: 20px">
+      <b-row>
+        <b-col cols="3"></b-col>
+        <b-col v-for="(column, index) in items" v-bind:key="index" cols="2">
+          <p>Column {{index+1}}:</p>
+          <p v-for="(item, itemIndex) in column" v-bind:key="itemIndex">{{item.startDisplay}} until {{item.endDisplay}}</p>
+        </b-col>
+      </b-row>
+    </div>
   </div>
 </template>
 
