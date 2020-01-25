@@ -39,6 +39,16 @@
           </button>
         </b-col>
       </b-row>
+      <b-row>
+        <b-col cols="5"></b-col>
+        <b-col cols="1">
+          <button class="arrow-button"
+          v-on:click.stop.prevent="deleteItem()"
+          >
+          Delete Item
+          </button>
+        </b-col>
+      </b-row>
     </form>
   </div>
 </template>
@@ -64,6 +74,8 @@ export default class Home extends Vue {
 
   displayError: boolean;
   errorMessage: string;
+
+  setupFlag: number = 1;
 
 
   constructor() {
@@ -120,20 +132,24 @@ export default class Home extends Vue {
 
     
     
-    let index = this.findLocationForItem(startTime, endTime);
+    let index = this.findLocationForItem(this.items, startTime, endTime);
 
     if(index === -1 || index > 2) {
-      //organize
-      //index = this.findLocationForItem(startTime, endTime);
+      const organized = this.organizeItems();
+      index = this.findLocationForItem(organized, startTime, endTime);
+
+      if(index === -1 || index > 2) {
+        this.displayError = true;
+        this.errorMessage = 'This item does not fit in the schedule';
+        console.log("Doesn't fit");
+        this.tryingToAdd = false;
+        return;
+      }
+
+      this.items = organized.map((col: any[]) => col);
     }
 
-    if(index === -1 || index > 2) {
-      this.displayError = true;
-      this.errorMessage = 'This item does not fit in the schedule';
-      console.log("Doesn't fit");
-      this.tryingToAdd = false;
-      return;
-    }
+    
         
     console.log("It Fits! at ", index);
     const startDisplay = startTime.format('hh:mm A');
@@ -148,19 +164,33 @@ export default class Home extends Vue {
     // }
     console.log(this.items.map((column: any) => { return column.map((obj: any) => { return {start: obj.startDisplay, end: obj.endDisplay} }); }))
     this.tryingToAdd = false;
-    this.resetForm();
+
+    // this.resetForm();
 
     console.log(" ======= End Add Item ======= \n");
   }
 
-  findLocationForItem(startTime: moment.Moment, endTime: moment.Moment) {
+  findLocationForItem(items: any[], startTime: moment.Moment, endTime: moment.Moment) {
     let result = -1;
-    this.items.find((column: any, index: number) => {
-      // Start time >= existing start time  && start time < existing end time OR
-      // End time > existing start time && end time <= existing end time
+    items.find((column: any, index: number) => {
+      // // Start time >= existing start time  && start time < existing end time OR
+      // // End time > existing start time && end time <= existing end time
+      // const fitsInColumn = (column.length === 0) || !(column).find((item: any) => {
+      //   console.log("item.startTime.isSameOrBefore(startTime) && startTime.isBefore(item.endTime)");
+      //   console.log(item.startTime.isSameOrBefore(startTime) && startTime.isBefore(item.endTime));
+      //   console.log("item.startTime.isBefore(endTime) && endTime.isSameOrBefore(item.endTime) ");
+      //   console.log(item.startTime.isBefore(endTime) && endTime.isSameOrBefore(item.endTime) );
+      //   return ( item.startTime.isSameOrBefore(startTime) && startTime.isBefore(item.endTime) ) ||
+      //     ( item.startTime.isBefore(endTime) && endTime.isSameOrBefore(item.endTime) ) ||
+      // });
+
+      // New Item Starts Before Existing Item But Ends After The Existing Item Starts OR
+      // New Item Starts At The Same Time OR
+      // New Item Starts After Existing Start But Before Existing End
       const fitsInColumn = (column.length === 0) || !(column).find((item: any) => {
-        return ( item.startTime.isSameOrBefore(startTime) && startTime.isBefore(item.endTime) ) ||
-          ( item.startTime.isBefore(endTime) && endTime.isSameOrBefore(item.endTime) )
+        return (startTime.isBefore(item.startTime) && endTime.isAfter(item.startTime)) ||
+          (startTime.isSame(item.startTime)) ||
+          (startTime.isAfter(item.startTime) && startTime.isBefore(item.endTime))
       });
 
 
@@ -172,6 +202,41 @@ export default class Home extends Vue {
     });
 
     return result;
+  }
+
+  deleteItem() {
+    this.items[0].splice(1,1);
+  }
+
+  /**
+   * Organizes the items by start time and then by length
+   */
+  organizeItems() {
+    const sorted = [].concat(...this.items)
+      .sort((timeA: any, timeB: any) => {
+        if(timeA.startTime.isSame(timeB.startTime)) {
+          return timeB.endTime.diff(timeB.startTime) - timeA.endTime.diff(timeA.startTime);
+        }
+        else {
+          return timeA.startTime - timeB.startTime;
+        }
+      });
+    
+    console.table(sorted.map((item: any) => { return {start: item.startDisplay, end: item.endDisplay}} ));
+    let organized: any[] = [[], [], []];
+
+    sorted.forEach((item: any) => {
+      console.log("Adding Item");
+      console.log({start: item.startDisplay, end: item.endDisplay});
+      const index = this.findLocationForItem(organized, item.startTime, item.endTime);
+      console.log(`index ${index}`);
+      organized[index].push(item);
+    });
+
+    console.log("==== Str Organized ====");
+    console.log(organized);
+    console.log("==== End Organized ====")
+    return organized;
   }
 
   resetForm() {
