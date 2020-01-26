@@ -62,7 +62,7 @@
     </div>
 
     <div style="margin-top: 20px">
-      <table>
+      <table id="time-table">
         <tr>
           <th>Time</th>
           <th v-for="(column, index) in tableData" v-bind:key="index">Column {{index+1}}</th>
@@ -71,20 +71,12 @@
           <td>{{time.display}}</td>
           <template v-for="(column) in tableData">
             <template v-for="(item, itemIndex) in column">
-              <td v-if="item.startDisplay === time.display" :key="itemIndex">{{item.startDisplay}} until {{item.endDisplay}}</td>
+              <td v-if="item.startDisplay === time.display" :key="itemIndex" :rowspan="item.numCols">{{item.startDisplay}} until {{item.endDisplay}}</td>
             </template>
             
           </template>
         </tr>
-
       </table>
-      <!-- <b-row>
-        <b-col cols="3"></b-col>
-        <b-col v-for="(column, index) in items" v-bind:key="index" cols="2">
-          <p>Column {{index+1}}:</p>
-          <p v-for="(item, itemIndex) in column" v-bind:key="itemIndex">{{item.startDisplay}} until {{item.endDisplay}}</p>
-        </b-col>
-      </b-row> -->
     </div>
 
 
@@ -408,6 +400,19 @@ export default class Home extends Vue {
 #table-container {
   max-height: 70vh;
   overflow-y: scroll;
+}
+
+#table-table {
+  border-collapse: collapse;
+}
+
+#time-table th, #time-table td {
+  border: 1px solid black;
+}
+
+#time-table td {
+  height: 40px;
+  width: 70px;
 }
 
 </style>
