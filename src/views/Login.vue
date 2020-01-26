@@ -60,6 +60,34 @@
         </b-col>
       </b-row>
     </div>
+
+    <div style="margin-top: 20px">
+      <table>
+        <tr>
+          <th>Time</th>
+          <th v-for="(column, index) in tableData" v-bind:key="index">Column {{index+1}}</th>
+        </tr>
+        <tr v-for="(time, index) in times" v-bind:key="index">
+          <td>{{time.display}}</td>
+          <template v-for="(column) in tableData">
+            <template v-for="(item, itemIndex) in column">
+              <td v-if="item.startDisplay === time.display" :key="itemIndex">{{item.startDisplay}} until {{item.endDisplay}}</td>
+            </template>
+            
+          </template>
+        </tr>
+
+      </table>
+      <!-- <b-row>
+        <b-col cols="3"></b-col>
+        <b-col v-for="(column, index) in items" v-bind:key="index" cols="2">
+          <p>Column {{index+1}}:</p>
+          <p v-for="(item, itemIndex) in column" v-bind:key="itemIndex">{{item.startDisplay}} until {{item.endDisplay}}</p>
+        </b-col>
+      </b-row> -->
+    </div>
+
+
   </div>
 </template>
 
@@ -76,8 +104,9 @@ export default class Home extends Vue {
   endMinutes: string;
   endPeriod: string;
   tryingToAdd: boolean;
+  times: any[] = [];
   items: any[];
-
+  tableData: any[];
   hoursOptions: any[];
   minutesOptions: any[];
   periodOptions: any[];
@@ -87,6 +116,7 @@ export default class Home extends Vue {
 
   setupFlag: number = 1;
 
+ 
 
   constructor() {
     super();
@@ -98,6 +128,7 @@ export default class Home extends Vue {
     this.endPeriod = "am";
     this.tryingToAdd = false;
     this.items = [[],[],[]];
+    this.tableData = [[{numCols: 96, hasData: false}],[{numCols: 96, hasData: false}],[{numCols: 96, hasData: false}]];
     this.displayError = false;
     this.errorMessage = "";
 
@@ -118,13 +149,24 @@ export default class Home extends Vue {
 
     this.minutesOptions = [
       { value: "00", text: '00' },
-      { value: "30", text: '30' }
+      { value: "15", text: '15' },
+      { value: "30", text: '30' },
+      { value: "45", text: '45' }
     ];
 
     this.periodOptions = [
       { value: "am", text: 'AM' },
       { value: "pm", text: 'PM' }
     ];
+
+    let time = moment(`12:00 am`, 'hh:mm A').utcOffset(0, true);
+    let endTime = moment(`11:45 pm`, 'hh:mm A').utcOffset(0, true);
+    do {
+      let display = time.format('hh:mm A');
+      this.times.push({time, display});
+      time = time.add(15, "minutes");
+    } while(time.isSameOrBefore(endTime));
+    
   }
 
   addItem() {
@@ -140,6 +182,8 @@ export default class Home extends Vue {
       return;
     }
 
+    console.log("diff");
+    console.log(endTime.diff(startTime, 'minutes'));
     
     
     let index = this.findLocationForItem(this.items, startTime, endTime);
@@ -174,10 +218,50 @@ export default class Home extends Vue {
     // }
     console.log(this.items.map((column: any) => { return column.map((obj: any) => { return {start: obj.startDisplay, end: obj.endDisplay} }); }))
     this.tryingToAdd = false;
-
+    this.createTable();
     // this.resetForm();
 
     console.log(" ======= End Add Item ======= \n");
+  }
+
+  createTable() {
+    let tempTable: any[] = [[], [], []];
+    const startOfDay = moment(`12:00 am`, 'hh:mm A').utcOffset(0, true);
+    const lastRow = moment(`11:45 pm`, 'hh:mm A').utcOffset(0, true);
+    const endOfDay = moment(`11:59 pm`, 'hh:mm A').utcOffset(0, true);
+    this.items.forEach((column: any[], colIndex: number) => {
+      if(column.length === 0) {
+        tempTable[colIndex].push({numCols: 96, hasData: false, rowIndex: 0})
+      }
+      (column || []).forEach((item: any, itemIndex) => {
+        let numOfCols: number = 1;
+        let rowIndex: number = 0;
+        if(itemIndex === 0 && item.startTime.isAfter(startOfDay)) {
+          numOfCols = (item.startTime.diff(startOfDay, "minutes")) / 15;
+          tempTable[colIndex].push({numCols: numOfCols, hasData: false, rowIndex});
+        }
+        else if(itemIndex > 0 && item.startTime.isAfter(column[itemIndex-1].endTime)) {
+          numOfCols = (item.startTime.diff(column[itemIndex-1].endTime, "minutes")) / 15;
+          rowIndex = this.times.findIndex((time: any) => time.display === column[itemIndex-1].endDisplay);
+          tempTable[colIndex].push({numCols: numOfCols, hasData: false, rowIndex});
+        }
+
+        rowIndex = this.times.findIndex((time: any) => time.display === item.startDisplay);
+        numOfCols = (item.endTime.diff(item.startTime, "minutes")) / 15;
+        tempTable[colIndex].push({numCols: numOfCols, hasData: true, rowIndex, ...item});
+
+        if(itemIndex === column.length-1 && item.endTime.isSameOrBefore(lastRow)) {
+          numOfCols = (endOfDay.diff(item.endTime, "minutes")+1) / 15;
+          rowIndex = this.times.findIndex((time: any) => time.display === item.endDisplay);
+          tempTable[colIndex].push({numCols: numOfCols, hasData: false, rowIndex});
+        }
+      });
+    });
+
+    console.log("==== Table Data ====");
+    this.tableData = tempTable;
+    console.log(this.tableData);
+
   }
 
   findLocationForItem(items: any[], startTime: moment.Moment, endTime: moment.Moment) {
