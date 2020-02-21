@@ -51,33 +51,39 @@
       </b-row>
     </form>
 
-    <div style="margin-top: 20px">
-      <b-row>
-        <b-col cols="3"></b-col>
-        <b-col v-for="(column, index) in items" v-bind:key="index" cols="2">
-          <p>Column {{index+1}}:</p>
-          <p v-for="(item, itemIndex) in column" v-bind:key="itemIndex">{{item.startDisplay}} until {{item.endDisplay}}</p>
-        </b-col>
-      </b-row>
-    </div>
-
-    <div style="margin-top: 20px">
-      <table id="time-table">
-        <tr>
-          <th>Time</th>
-          <th v-for="(column, index) in tableData" v-bind:key="index">Column {{index+1}}</th>
-        </tr>
-        <tr v-for="(time, index) in times" v-bind:key="index">
-          <td>{{time.display}}</td>
-          <template v-for="(column) in tableData">
-            <template v-for="(item, itemIndex) in column">
-              <td v-if="item.startDisplay === time.display" :key="itemIndex" :rowspan="item.numCols">{{item.startDisplay}} until {{item.endDisplay}}</td>
-            </template>
-            
-          </template>
-        </tr>
-      </table>
-    </div>
+    <b-container id="main-content">
+      <div style="margin-top: 20px">
+        <b-table-simple fixed sticky-header id="time-table">
+          <b-thead head-variant="dark">
+            <b-tr>
+              <b-th>Time</b-th>
+              <b-th v-for="(column, index) in tableData" v-bind:key="index + '-header-column'">
+                <p class="table-cell">Column {{index+1}}</p>
+              </b-th>
+            </b-tr>
+          </b-thead>
+          <b-tbody>
+            <b-tr v-for="(time, index) in times" v-bind:key="index + '-time-row'">
+              <b-td>{{time.display}}</b-td>
+              <template v-for="(column, rowIndex) in tableData">
+                <template v-for="(item, itemIndex) in column">
+                  <b-td 
+                    v-if="item.startDisplay === time.display" 
+                    :key="itemIndex + '-time-row-' + rowIndex" 
+                    :rowspan="item.numCols"
+                  >
+                    <p class="table-cell">
+                      {{item.startDisplay}} until {{item.endDisplay}}
+                    </p>
+                  </b-td>
+                </template>
+                
+              </template>
+            </b-tr>
+          </b-tbody>
+        </b-table-simple>
+      </div>
+    </b-container>
 
 
   </div>
@@ -179,7 +185,7 @@ export default class Home extends Vue {
     
     
     let index = this.findLocationForItem(this.items, startTime, endTime);
-
+    console.log('index: ', index);
     if(index === -1 || index > 2) {
       const organized = this.organizeItems();
       index = this.findLocationForItem(organized, startTime, endTime);
@@ -201,13 +207,9 @@ export default class Home extends Vue {
     const startDisplay = startTime.format('hh:mm A');
     const endDisplay = endTime.format('hh:mm A');
     console.log({startTime, endTime, startDisplay, endDisplay});
-    // if(this.items[index]) {
-      this.items[index].push({startTime, endTime, startDisplay, endDisplay});
-      this.items[index] = this.items[index].sort((a: any, b: any) => a.startTime - b.startTime);
-    // }
-    // else {
-    //   this.items[index] = [{startTime, endTime, startDisplay, endDisplay}];
-    // }
+    this.items[index].push({startTime, endTime, startDisplay, endDisplay});
+    this.items[index] = this.items[index].sort((a: any, b: any) => a.startTime - b.startTime);
+
     console.log(this.items.map((column: any) => { return column.map((obj: any) => { return {start: obj.startDisplay, end: obj.endDisplay} }); }))
     this.tryingToAdd = false;
     this.createTable();
@@ -259,17 +261,6 @@ export default class Home extends Vue {
   findLocationForItem(items: any[], startTime: moment.Moment, endTime: moment.Moment) {
     let result = -1;
     items.find((column: any, index: number) => {
-      // // Start time >= existing start time  && start time < existing end time OR
-      // // End time > existing start time && end time <= existing end time
-      // const fitsInColumn = (column.length === 0) || !(column).find((item: any) => {
-      //   console.log("item.startTime.isSameOrBefore(startTime) && startTime.isBefore(item.endTime)");
-      //   console.log(item.startTime.isSameOrBefore(startTime) && startTime.isBefore(item.endTime));
-      //   console.log("item.startTime.isBefore(endTime) && endTime.isSameOrBefore(item.endTime) ");
-      //   console.log(item.startTime.isBefore(endTime) && endTime.isSameOrBefore(item.endTime) );
-      //   return ( item.startTime.isSameOrBefore(startTime) && startTime.isBefore(item.endTime) ) ||
-      //     ( item.startTime.isBefore(endTime) && endTime.isSameOrBefore(item.endTime) ) ||
-      // });
-
       // New Item Starts Before Existing Item But Ends After The Existing Item Starts OR
       // New Item Starts At The Same Time OR
       // New Item Starts After Existing Start But Before Existing End
@@ -391,6 +382,8 @@ export default class Home extends Vue {
   width: 86%;
   margin-left: 7%;
   margin-top: 3%;
+  max-height: 70vh;
+  /* overflow-y: scroll; */
 }
 
 #to-do-button {
@@ -413,6 +406,15 @@ export default class Home extends Vue {
 #time-table td {
   height: 40px;
   width: 70px;
+}
+
+.table-cell {
+  height: 30px !important;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: 0;
 }
 
 </style>
